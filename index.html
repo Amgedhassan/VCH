@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Leadership Lab | VOIS</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Custom Styles -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0B0F19; /* A slightly deeper black */
+            color: #F9FAFB; /* Off-white for better readability */
+        }
+        .accent-red {
+            background-color: #E53E3E; /* A vibrant red */
+        }
+        .accent-red:hover {
+            background-color: #C53030; /* A darker red for hover */
+        }
+        .text-accent-red {
+            color: #E53E3E;
+        }
+        
+        /* Animated Gradient Text for Hero Headline */
+        .animated-gradient-text {
+            background: linear-gradient(90deg, #ff8a00, #e52e71, #8a2be2, #ff8a00);
+            background-size: 400% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-animation 10s ease infinite;
+        }
+
+        @keyframes gradient-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Futuristic grid background for the "Wow Factor" section */
+        .grid-background {
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: -1px -1px;
+            animation: moveGrid 4s linear infinite;
+        }
+        @keyframes moveGrid {
+            from { background-position: 0 0; }
+            to { background-position: 40px 40px; }
+        }
+
+        /* Scroll Animation Styles */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.6, 0.2, 0.1, 1), transform 0.8s cubic-bezier(0.6, 0.2, 0.1, 1);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 3D Tilt Effect for Feature Cards */
+        .tilt-card {
+            transform-style: preserve-3d;
+            transition: transform 0.1s linear;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header / Navbar -->
+    <header class="fixed top-0 left-0 w-full z-30 py-4 px-6 md:px-12 bg-black/30 backdrop-blur-lg border-b border-gray-700/30">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-bold tracking-wider">The Leadership Lab <span class="text-accent-red">VOIS</span></h1>
+            <a href="#final-cta" class="accent-red text-white font-bold py-2 px-4 md:py-3 md:px-6 rounded-lg text-sm md:text-base transition-all duration-300 hover:shadow-lg hover:shadow-red-500/40 hover:scale-105">
+                Enter The Lab
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+
+        <!-- 1. Hero Section -->
+        <section class="min-h-screen flex items-center justify-center text-center px-4 relative overflow-hidden bg-gray-900">
+            <canvas id="constellation-canvas" class="absolute inset-0 z-0 opacity-50"></canvas>
+            <div class="max-w-4xl relative z-10">
+                <h2 class="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight uppercase">
+                    Leadership is not a title.
+                    <span class="animated-gradient-text">It's our advantage.</span>
+                </h2>
+                <p class="mt-6 text-lg md:text-xl max-w-3xl mx-auto text-gray-200">
+                    Welcome to The Leadership Lab, the exclusive growth ecosystem designed to forge the next generation of leaders at VOIS.
+                </p>
+                <a href="#final-cta" class="mt-8 inline-block accent-red text-white font-bold py-4 px-10 rounded-lg text-lg transition-transform duration-300 hover:scale-110 shadow-lg shadow-red-500/30">
+                    Enter The Lab
+                </a>
+            </div>
+        </section>
+
+        <!-- 2. The Problem Section -->
+        <section class="py-20 md:py-24 bg-gray-800">
+            <div class="container mx-auto px-6 text-center">
+                <div class="reveal">
+                    <h3 class="text-3xl md:text-4xl font-bold">Leading at <span class="text-accent-red">VOIS</span> is different. <br/> So are the challenges.</h3>
+                    <div class="mt-8 max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 text-left text-lg text-gray-300">
+                        <div class="flex items-start space-x-3 p-4">
+                            <svg class="w-6 h-6 text-accent-red flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span>Navigating complex, cross-functional projects?</span>
+                        </div>
+                        <div class="flex items-start space-x-3 p-4">
+                            <svg class="w-6 h-6 text-accent-red flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span>Driving innovation while maintaining operational excellence?</span>
+                        </div>
+                         <div class="flex items-start space-x-3 p-4">
+                            <svg class="w-6 h-6 text-accent-red flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span>Inspiring high-performing teams in a fast-paced environment?</span>
+                        </div>
+                         <div class="flex items-start space-x-3 p-4">
+                            <svg class="w-6 h-6 text-accent-red flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span>Looking for a confidential sounding board of your peers?</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. The Solution Section -->
+        <section class="py-20 md:py-24 bg-white text-gray-900">
+            <div class="container mx-auto px-6 text-center max-w-4xl reveal">
+                <h3 class="text-3xl md:text-5xl font-black">Welcome to The Leadership Lab.</h3>
+                <p class="mt-6 text-lg md:text-xl text-gray-600">
+                    This is not another training course. It's an interactive ecosystem designed for the practice of leadership. Here, your challenges become opportunities, your peers become your personal board of directors, and theories become your tools.
+                </p>
+            </div>
+        </section>
+        
+        <!-- 4. Core Features Section -->
+        <section class="py-20 md:py-24 bg-gray-900">
+            <div class="container mx-auto px-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-12" style="perspective: 1000px;">
+                    <!-- Feature 1 -->
+                    <div class="text-center reveal tilt-card bg-gray-800/50 p-8 rounded-2xl border border-gray-700/50">
+                        <div class="flex justify-center mb-4">
+                            <div class="w-16 h-16 bg-gray-900 rounded-xl flex items-center justify-center">
+                                <svg class="w-8 h-8 text-accent-red" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m-7.5-2.962A3 3 0 0110.5 9.75v-.75a3 3 0 00-3-3h-1.5a3 3 0 00-3 3v.75a3 3 0 01-2.25-2.72 3 3 0 00-4.682 2.72 9.094 9.094 0 003.741.479m12.158 0A9.094 9.094 0 0112 21.75c-2.672 0-5.182-.984-7.127-2.662M18 18.72A3 3 0 0117.25 15h-1.5a3 3 0 01-2.25-2.72 3 3 0 00-4.682 2.72 3 3 0 002.25 2.72H15a3 3 0 013 3v.75a3 3 0 003-3v-.75a3 3 0 00-2.25-2.72m-8.25-4.5a3 3 0 01-3-3v-.75a3 3 0 013-3h1.5a3 3 0 013 3v.75a3 3 0 01-3 3h-1.5z" /></svg>
+                            </div>
+                        </div>
+                        <h4 class="text-2xl font-bold">The Situation Room</h4>
+                        <p class="mt-2 text-gray-400">Present your real VOIS challenge to a curated group of peer leaders in a live, confidential session. Get actionable solutions, not just opinions.</p>
+                    </div>
+                    <!-- Feature 2 -->
+                    <div class="text-center reveal tilt-card bg-gray-800/50 p-8 rounded-2xl border border-gray-700/50" style="transition-delay: 200ms;">
+                        <div class="flex justify-center mb-4">
+                             <div class="w-16 h-16 bg-gray-900 rounded-xl flex items-center justify-center">
+                                <svg class="w-8 h-8 text-accent-red" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg>
+                            </div>
+                        </div>
+                        <h4 class="text-2xl font-bold">The Playbook Repository</h4>
+                        <p class="mt-2 text-gray-400">A peer-vetted library of ready-to-use templates and frameworks proven to work within VOIS. Stop reinventing the wheel.</p>
+                    </div>
+                    <!-- Feature 3 -->
+                    <div class="text-center reveal tilt-card bg-gray-800/50 p-8 rounded-2xl border border-gray-700/50" style="transition-delay: 400ms;">
+                         <div class="flex justify-center mb-4">
+                             <div class="w-16 h-16 bg-gray-900 rounded-xl flex items-center justify-center">
+                                <svg class="w-8 h-8 text-accent-red" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.362-3.797A8.33 8.33 0 0112 2.25c0 .414.038.814.11 1.204A8.253 8.253 0 0115.362 5.214z" /><path stroke-linecap="round" stroke-linejoin="round" d="M12 18a6 6 0 006-6c0-1.657-1.343-3-3-3s-3 1.343-3 3c0 1.657 1.343 3 3 3z" /></svg>
+                            </div>
+                        </div>
+                        <h4 class="text-2xl font-bold">Leadership Sparks</h4>
+                        <p class="mt-2 text-gray-400">Concentrated leadership wisdom from your VOIS peers in 60-second vertical videos. Learn faster, apply instantly.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. The "Wow Factor" Section -->
+        <section class="py-20 md:py-32 bg-black relative overflow-hidden">
+            <div class="absolute inset-0 grid-background opacity-50"></div>
+            <div class="container mx-auto px-6 text-center relative z-10 reveal">
+                <h3 class="text-4xl md:text-6xl font-black uppercase tracking-wider">The Future is Here: <br class="md:hidden"/><span class="text-accent-red">The Simulation Arena</span></h3>
+                <p class="mt-6 text-lg md:text-xl max-w-3xl mx-auto text-gray-300">
+                    What if you could practice a tough negotiation or a critical feedback session *before* it happens? Our Simulation Arena lets you engage with AI-powered characters in challenging leadership scenarios and receive instant, data-driven feedback on your performance.
+                </p>
+                <div class="mt-12 max-w-4xl mx-auto bg-gray-900/50 backdrop-blur-sm p-4 rounded-2xl border border-gray-700">
+                    <img src="https://placehold.co/1200x600/111827/E53E3E?text=Simulation+UI+Mockup" alt="Simulation Arena UI Mockup" class="rounded-lg w-full">
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Final Call-to-Action (CTA) Section -->
+        <section id="final-cta" class="py-20 md:py-24 bg-gray-900">
+            <div class="container mx-auto px-6 text-center max-w-3xl reveal">
+                <h3 class="text-3xl md:text-5xl font-black">It's Time to Practice.</h3>
+                <p class="mt-6 text-lg md:text-xl text-gray-400">
+                    The Leadership Lab is now open to all VOIS leads. This is your space to grow, connect, and sharpen the skills that will define the future of our company.
+                </p>
+                <button onclick="showModal()" class="mt-8 inline-block accent-red text-white font-bold py-4 px-12 rounded-lg text-xl transition-transform duration-300 hover:scale-110 shadow-lg shadow-red-500/30">
+                    Enter The Lab Now
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-black py-8">
+        <div class="container mx-auto px-6 text-center text-gray-500">
+            A VOIS Initiative &copy; 2025. All Rights Reserved.
+        </div>
+    </footer>
+
+    <!-- Modal for CTA -->
+    <div id="cta-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50 hidden transition-opacity duration-300">
+        <div class="bg-white text-gray-900 rounded-lg shadow-xl max-w-md w-full text-center p-8 transform transition-transform duration-300 scale-95">
+            <h4 class="text-2xl font-bold">Access Granted!</h4>
+            <p class="mt-4 text-gray-600">Welcome to The Leadership Lab. You are now part of an exclusive community dedicated to shaping the future of leadership at VOIS. Explore, engage, and start practicing.</p>
+            <button onclick="hideModal()" class="mt-6 w-full accent-red text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300">
+                Let's Go
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Modal functionality
+        const modal = document.getElementById('cta-modal');
+        const modalContent = modal.querySelector('div');
+
+        function showModal() {
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.style.opacity = '1';
+                modalContent.style.transform = 'scale(1)';
+            }, 10);
+        }
+
+        function hideModal() {
+            modal.style.opacity = '0';
+            modalContent.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        // Scroll Animation functionality
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        const revealElements = document.querySelectorAll('.reveal');
+        revealElements.forEach(el => observer.observe(el));
+
+        // 3D Tilt Effect for Feature Cards
+        const tiltCards = document.querySelectorAll('.tilt-card');
+        tiltCards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const { width, height } = rect;
+                const rotateX = (y / height - 0.5) * -20; // Max rotation 10 degrees
+                const rotateY = (x / width - 0.5) * 20;  // Max rotation 10 degrees
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+            });
+        });
+
+        // Constellation Canvas Animation
+        const canvas = document.getElementById('constellation-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 1.5 + 1;
+                this.speedX = Math.random() * 1 - 0.5;
+                this.speedY = Math.random() * 1 - 0.5;
+            }
+            update() {
+                if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
+                if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+                this.x += this.speedX;
+                this.y += this.speedY;
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            const numberOfParticles = (canvas.width * canvas.height) / 9000;
+            for (let i = 0; i < numberOfParticles; i++) {
+                particles.push(new Particle());
+            }
+        }
+        initParticles();
+
+        function connectParticles() {
+            let opacityValue = 1;
+            for (let a = 0; a < particles.length; a++) {
+                for (let b = a; b < particles.length; b++) {
+                    const distance = Math.sqrt(
+                        Math.pow(particles[a].x - particles[b].x, 2) +
+                        Math.pow(particles[a].y - particles[b].y, 2)
+                    );
+                    if (distance < 100) {
+                        opacityValue = 1 - (distance / 100);
+                        ctx.strokeStyle = `rgba(255, 255, 255, ${opacityValue})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[a].x, particles[a].y);
+                        ctx.lineTo(particles[b].x, particles[b].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+            }
+            connectParticles();
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+
+</body>
+</html>
