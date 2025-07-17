@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Nexus | A VOIS Initiative</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Three.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <!-- Custom Styles -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif; /* Using 'Inter' as a web-safe alternative to the proprietary 'Vodafone' font, matching the modern style. */
+            background-color: #000000;
+            color: #F9FAFB;
+            overflow: hidden;
+            margin: 0;
+        }
+        #render-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            outline: none;
+        }
+        .ui-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Let clicks pass through to the canvas */
+            z-index: 10;
+        }
+        .ui-element {
+            pointer-events: auto; /* Re-enable clicks for UI elements */
+        }
+        .accent-red {
+            background-color: #E60000; /* Official VOIS Red */
+        }
+        .accent-red:hover {
+            background-color: #B80000; /* Darker shade for hover */
+        }
+        .text-accent-red {
+            color: #E60000;
+        }
+        .border-accent-red {
+            border-color: #E60000;
+        }
+        .info-panel {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 90%;
+            max-width: 550px;
+            background: rgba(17, 24, 39, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            padding: 2rem;
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.95);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+            pointer-events: none;
+            box-shadow: 0 0 25px rgba(230, 0, 0, 0.1), 0 0 50px rgba(230, 0, 0, 0.05);
+            overflow: hidden;
+        }
+        .info-panel::before { /* Holographic scanline effect */
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 200%;
+            background: linear-gradient(0deg, transparent 50%, rgba(255, 255, 255, 0.02) 50%);
+            background-size: 100% 4px;
+            animation: scanline 10s linear infinite;
+        }
+        @keyframes scanline {
+            from { transform: translateY(0%); }
+            to { transform: translateY(-50%); }
+        }
+        .info-panel.visible {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+            pointer-events: auto;
+        }
+        .animated-gradient-text {
+            background: linear-gradient(90deg, #E60000, #9C2AA0, #E60000); /* Using VOIS Red and secondary Purple */
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-animation 8s ease infinite;
+        }
+        @keyframes gradient-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="render-canvas"></canvas>
+
+    <div class="ui-container">
+        <!-- Header -->
+        <header class="fixed top-0 left-0 w-full z-30 py-4 px-6 md:px-12 ui-element">
+            <div class="container mx-auto flex justify-between items-center">
+                <h1 class="text-xl md:text-2xl font-bold tracking-wider">The <span class="text-accent-red">Nexus</span></h1>
+                <div class="flex items-center space-x-4">
+                     <button id="home-button" title="Return to Overview" class="text-white transition-transform duration-300 hover:scale-110 hover:text-accent-red">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                    </button>
+                    <button id="cta-button-header" class="accent-red text-white font-bold py-2 px-4 md:py-3 md:px-6 rounded-lg text-sm md:text-base transition-all duration-300 hover:shadow-lg hover:shadow-red-500/40 hover:scale-105">
+                        Enter The Nexus
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Info Panels -->
+        <div id="info-panel-container">
+            <!-- Hero Panel -->
+            <div id="panel-0" class="info-panel text-center">
+                <h2 class="text-3xl md:text-5xl font-black tracking-tight uppercase">
+                    Leadership is not a title.
+                    <span class="animated-gradient-text">It's our advantage.</span>
+                </h2>
+                <p class="mt-4 text-md md:text-lg text-gray-200">
+                    Welcome to The Nexus, the exclusive growth ecosystem designed to forge the next generation of leaders at VOIS.
+                </p>
+                <button id="explore-button" class="mt-6 text-white font-bold py-3 px-8 rounded-lg text-lg transition-transform duration-300 hover:scale-105 border-2 border-accent-red">
+                    Explore The Nexus
+                </button>
+            </div>
+
+            <!-- Problem Panel -->
+            <div id="panel-1" class="info-panel flex items-center">
+                <div class="w-1/4 flex-shrink-0"><svg class="w-full h-auto text-accent-red opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"></path></svg></div>
+                <div class="pl-6">
+                    <h3 class="text-2xl md:text-3xl font-bold">The <span class="text-accent-red">VOIS</span> Challenge</h3>
+                    <p class="mt-2 text-gray-300">Leading here is different. We navigate complex projects, drive innovation at scale, and inspire high-performing teams in a fast-paced environment. This requires a new class of tools.</p>
+                </div>
+            </div>
+
+            <!-- Solution Panel -->
+            <div id="panel-2" class="info-panel flex items-center">
+                <div class="w-1/4 flex-shrink-0"><svg class="w-full h-auto text-accent-red opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7.014A8.003 8.003 0 0122 12c0 3.771-2.502 6.94-6.014 7.986C14 22.498 11 22 11 20c1 2 2.657 1.657 2.657 1.657z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.343 12.343A8 8 0 0119.657 2.03S19 4 17 5c0-2-.5-5-2.986-7.014A8.003 8.003 0 002 12c0 3.771 2.502 6.94 6.014 7.986C10 22.498 13 22 13 20c-1 2-2.657 1.657-2.657 1.657z"></path></svg></div>
+                <div class="pl-6">
+                     <h3 class="text-2xl md:text-3xl font-bold">Your <span class="text-accent-red">Ecosystem</span> for Growth</h3>
+                     <p class="mt-2 text-gray-300">The Nexus is not a course; it's a live ecosystem. Here, your challenges become opportunities, your peers become your personal board of directors, and theories become your practical tools.</p>
+                </div>
+            </div>
+            
+            <!-- Features Panel -->
+            <div id="panel-3" class="info-panel">
+                <h3 class="text-2xl md:text-3xl font-bold text-center">Core <span class="text-accent-red">Features</span></h3>
+                <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                    <div>
+                        <svg class="w-10 h-10 mx-auto text-accent-red" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                        <p class="mt-2 font-semibold">The Situation Room</p>
+                    </div>
+                    <div>
+                        <svg class="w-10 h-10 mx-auto text-accent-red" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7l8 5 8-5M12 22V12"></path></svg>
+                        <p class="mt-2 font-semibold">The Playbook Repository</p>
+                    </div>
+                    <div>
+                        <svg class="w-10 h-10 mx-auto text-accent-red" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        <p class="mt-2 font-semibold">Leadership Sparks</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wow Factor Panel -->
+            <div id="panel-4" class="info-panel flex items-center">
+                 <div class="w-1/4 flex-shrink-0"><svg class="w-full h-auto text-accent-red opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>
+                <div class="pl-6">
+                    <h3 class="text-2xl md:text-3xl font-bold">The <span class="text-accent-red">Simulation Arena</span></h3>
+                    <p class="mt-2 text-gray-300">Practice tough negotiations or critical feedback sessions with AI-powered characters before they happen. Receive instant, data-driven feedback to sharpen your skills in a safe environment.</p>
+                </div>
+            </div>
+
+            <!-- CTA Panel -->
+            <div id="panel-5" class="info-panel text-center">
+                 <h3 class="text-3xl md:text-4xl font-black">It's Time to Practice.</h3>
+                <p class="mt-4 text-lg text-gray-300">
+                    The Nexus is now open. This is your space to grow, connect, and define the future of leadership at VOIS.
+                </p>
+                <button onclick="showModal()" class="mt-6 inline-block accent-red text-white font-bold py-4 px-12 rounded-lg text-xl transition-transform duration-300 hover:scale-110 shadow-lg shadow-red-500/30">
+                    Enter The Nexus Now
+                </button>
+            </div>
+        </div>
+
+        <!-- Modal for CTA -->
+        <div id="cta-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50 hidden transition-opacity duration-300 ui-element">
+            <div class="bg-white text-gray-900 rounded-lg shadow-xl max-w-md w-full text-center p-8 transform transition-transform duration-300 scale-95">
+                <h4 class="text-2xl font-bold">Access Granted!</h4>
+                <p class="mt-4 text-gray-600">Welcome to The Nexus. You are now part of an exclusive community dedicated to shaping the future of leadership at VOIS. Explore, engage, and start practicing.</p>
+                <button onclick="hideModal()" class="mt-6 w-full accent-red text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300">
+                    Let's Go
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        // --- SCENE SETUP ---
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('render-canvas'), antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        camera.position.z = 100;
+
+        // --- UI & STATE ---
+        const infoPanels = document.querySelectorAll('.info-panel');
+        let activeNodeId = 0;
+        let isNavigating = false;
+        let targetPosition = new THREE.Vector3();
+        let targetLookAt = new THREE.Vector3();
+
+        // --- NEURAL NETWORK NODES ---
+        const nodePositions = [
+            new THREE.Vector3(0, 0, 0),
+            new THREE.Vector3(-60, 20, -50),
+            new THREE.Vector3(60, -20, -50),
+            new THREE.Vector3(0, 50, -100),
+            new THREE.Vector3(0, -50, -150),
+            new THREE.Vector3(0, 0, -250)
+        ];
+        const nodes = [];
+        const nodeGroup = new THREE.Group();
+        scene.add(nodeGroup);
+
+        const nodeGeometry = new THREE.SphereGeometry(2, 32, 32);
+        const activeMaterial = new THREE.MeshStandardMaterial({ color: 0xE60000, emissive: 0xE60000, metalness: 0.5, roughness: 0.5 });
+        const inactiveMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, metalness: 0.5, roughness: 0.5 });
+
+        nodePositions.forEach((pos, i) => {
+            const material = i === 0 ? activeMaterial.clone() : inactiveMaterial.clone();
+            const node = new THREE.Mesh(nodeGeometry, material);
+            node.position.copy(pos);
+            node.userData.id = i;
+            nodes.push(node);
+            nodeGroup.add(node);
+        });
+
+        // --- NEURAL CONNECTIONS & PULSE ---
+        const lineMaterial = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.1 });
+        const pulseMaterial = new THREE.MeshBasicMaterial({ color: 0xE60000 });
+        const pulseGeometry = new THREE.SphereGeometry(0.5, 16, 16);
+        const pulse = new THREE.Mesh(pulseGeometry, pulseMaterial);
+        pulse.visible = false;
+        scene.add(pulse);
+        let pulsePath = null;
+        let pulseProgress = 0;
+
+        const connections = [
+            [0, 1], [0, 2], [1, 3], [2, 3], [3, 4], [4, 5]
+        ];
+        connections.forEach(conn => {
+            const points = [nodePositions[conn[0]], nodePositions[conn[1]]];
+            const geometry = new THREE.BufferGeometry().setFromPoints(points);
+            const line = new THREE.Line(geometry, lineMaterial);
+            nodeGroup.add(line);
+        });
+
+        // --- LIGHTING ---
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+        scene.add(ambientLight);
+        const pointLight = new THREE.PointLight(0xffffff, 1);
+        camera.add(pointLight);
+        scene.add(camera);
+
+        // --- BACKGROUND PARTICLES ---
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particlesCnt = 5000;
+        const posArray = new Float32Array(particlesCnt * 3);
+        for (let i = 0; i < particlesCnt * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 600;
+        }
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const particlesMaterial = new THREE.PointsMaterial({ size: 0.1, color: 0x555555 });
+        const particleMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particleMesh);
+
+        // --- INTERACTION & NAVIGATION ---
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
+        let INTERSECTED;
+
+        function onMouseMove(event) {
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+        }
+
+        function onClick(event) {
+            if (INTERSECTED) {
+                navigateToNode(INTERSECTED.userData.id);
+            }
+        }
+        
+        function onScroll(event) {
+            if (isNavigating) return;
+            const direction = event.deltaY > 0 ? 1 : -1;
+            const nextNodeId = activeNodeId + direction;
+            if (nextNodeId >= 0 && nextNodeId < nodes.length) {
+                navigateToNode(nextNodeId);
+            }
+        }
+
+        document.getElementById('explore-button').addEventListener('click', () => navigateToNode(1));
+        document.getElementById('cta-button-header').addEventListener('click', () => navigateToNode(5));
+        document.getElementById('home-button').addEventListener('click', () => navigateToNode(0));
+
+        function navigateToNode(id) {
+            if (isNavigating && id === activeNodeId) return;
+            isNavigating = true;
+            
+            const prevNodeId = activeNodeId;
+            activeNodeId = id;
+
+            nodes.forEach(node => {
+                node.material = node.userData.id === id ? activeMaterial : inactiveMaterial;
+            });
+
+            const targetNodePosition = nodes[id].position;
+            targetPosition.set(targetNodePosition.x, targetNodePosition.y, targetNodePosition.z + 40);
+            targetLookAt.copy(targetNodePosition);
+            
+            infoPanels.forEach((panel, i) => {
+                panel.classList.toggle('visible', i === id);
+            });
+            
+            // Start pulse animation
+            pulsePath = new THREE.Line3(nodes[prevNodeId].position, nodes[id].position);
+            pulseProgress = 0;
+            pulse.visible = true;
+
+            setTimeout(() => { isNavigating = false; }, 1000);
+        }
+
+        // --- ANIMATION LOOP ---
+        function animate() {
+            requestAnimationFrame(animate);
+
+            particleMesh.rotation.y += 0.0002;
+
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObjects(nodes);
+
+            document.body.style.cursor = intersects.length > 0 ? 'pointer' : 'default';
+
+            if (intersects.length > 0) {
+                if (INTERSECTED != intersects[0].object) {
+                    if (INTERSECTED) INTERSECTED.scale.set(1, 1, 1);
+                    INTERSECTED = intersects[0].object;
+                    INTERSECTED.scale.set(1.5, 1.5, 1.5);
+                }
+            } else {
+                if (INTERSECTED) INTERSECTED.scale.set(1, 1, 1);
+                INTERSECTED = null;
+            }
+            
+            // Animate pulse
+            if (pulse.visible) {
+                pulseProgress += 0.05;
+                pulsePath.at(pulseProgress, pulse.position);
+                if (pulseProgress >= 1) {
+                    pulse.visible = false;
+                    pulseProgress = 0;
+                }
+            }
+
+            camera.position.lerp(targetPosition, 0.05);
+            camera.lookAt(targetLookAt);
+
+            renderer.render(scene, camera);
+        }
+
+        // --- EVENT LISTENERS & INITIALIZATION ---
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+        window.addEventListener('mousemove', onMouseMove);
+        window.addEventListener('click', onClick);
+        window.addEventListener('wheel', onScroll);
+        
+        navigateToNode(0);
+        animate();
+        
+        // --- MODAL LOGIC ---
+        const modal = document.getElementById('cta-modal');
+        const modalContent = modal.querySelector('div');
+
+        window.showModal = function() {
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.style.opacity = '1';
+                modalContent.style.transform = 'scale(1)';
+            }, 10);
+        }
+
+        window.hideModal = function() {
+            modal.style.opacity = '0';
+            modalContent.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+    </script>
+</body>
+</html>
