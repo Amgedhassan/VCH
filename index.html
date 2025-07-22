@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Nexus | A VOIS Initiative</title>
+    <title>Leadership Community | VOIS</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -19,7 +19,6 @@
             font-family: 'Inter', sans-serif; /* Using 'Inter' as a web-safe alternative to the proprietary 'Vodafone' font, matching the modern style. */
             background-color: #0B0F19;
             color: #F9FAFB;
-            height: 600vh; /* Set a large height to enable scrolling */
             overflow-x: hidden;
         }
         .accent-red {
@@ -32,29 +31,23 @@
             color: #E60000;
         }
         
-        /* 3D Scene Setup */
-        .scene {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            perspective: 1000px;
-        }
-
+        /* Section Styling */
         .page-section {
+            min-height: 100vh;
             width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
+            position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
-            transform-origin: top center;
-            transition: transform 0.5s ease-out;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
+            overflow: hidden;
+        }
+        
+        /* Parallax Background */
+        .parallax-bg {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
         }
         
         /* Animated Gradient Text for Hero Headline */
@@ -84,7 +77,7 @@
         .reveal {
             opacity: 0;
             transform: translateY(40px);
-            transition: opacity 0.8s cubic-bezier(0.6, 0.2, 0.1, 1) 0.3s, transform 0.8s cubic-bezier(0.6, 0.2, 0.1, 1) 0.3s;
+            transition: opacity 0.8s cubic-bezier(0.6, 0.2, 0.1, 1), transform 0.8s cubic-bezier(0.6, 0.2, 0.1, 1);
         }
         .reveal.visible {
             opacity: 1;
@@ -103,34 +96,34 @@
     <!-- Header / Navbar -->
     <header class="fixed top-0 left-0 w-full z-30 py-4 px-6 md:px-12 bg-black/30 backdrop-blur-lg border-b border-gray-700/30">
         <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-xl md:text-2xl font-bold tracking-wider">The <span class="text-accent-red">Nexus</span></h1>
-            <a href="#final-cta" class="accent-red text-white font-bold py-2 px-4 md:py-3 md:px-6 rounded-lg text-sm md:text-base transition-all duration-300 hover:shadow-lg hover:shadow-red-500/40 hover:scale-105">
-                Enter The Nexus
+            <h1 class="text-lg md:text-xl font-bold tracking-wider">Leadership <span class="text-accent-red">Community</span></h1>
+            <a href="#final-cta" class="accent-red text-white font-bold py-2 px-4 md:py-3 md:px-6 rounded-lg text-sm md:text-base transition-all duration-300 hover:shadow-lg hover:shadow-red-500/40 hover:scale-105 whitespace-nowrap">
+                Join the Community
             </a>
         </div>
     </header>
 
-    <!-- Main 3D Scene -->
-    <div class="scene">
+    <!-- Main Content -->
+    <main>
         <!-- 1. Hero Section -->
-        <section id="section-0" class="page-section text-center px-4 relative overflow-hidden bg-gray-900">
+        <section id="hero" class="page-section text-center px-4 bg-gray-900">
             <canvas id="constellation-canvas" class="absolute inset-0 z-0 opacity-50"></canvas>
-            <div class="max-w-4xl relative z-10 reveal visible">
+            <div class="max-w-4xl relative z-10">
                 <h2 class="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight uppercase">
                     Leadership is not a title.
                     <span class="animated-gradient-text">It's our advantage.</span>
                 </h2>
                 <p class="mt-6 text-lg md:text-xl max-w-3xl mx-auto text-gray-200">
-                    Welcome to The Nexus, the exclusive growth ecosystem designed to forge the next generation of leaders at VOIS.
+                    Welcome to the Leadership Community, the exclusive growth ecosystem designed to forge the next generation of leaders at VOIS.
                 </p>
                 <a href="#final-cta" class="mt-8 inline-block accent-red text-white font-bold py-4 px-10 rounded-lg text-lg transition-transform duration-300 hover:scale-110 shadow-lg shadow-red-500/30">
-                    Enter The Nexus
+                    Join the Community Now
                 </a>
             </div>
         </section>
 
         <!-- 2. The Problem Section -->
-        <section id="section-1" class="page-section bg-gray-800">
+        <section class="page-section bg-gray-800">
             <div class="container mx-auto px-6 text-center reveal">
                 <h3 class="text-3xl md:text-4xl font-bold">Leading at <span class="text-accent-red">VOIS</span> is different. <br/> So are the challenges.</h3>
                 <div class="mt-8 max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 text-left text-lg text-gray-300">
@@ -155,17 +148,17 @@
         </section>
 
         <!-- 3. The Solution Section -->
-        <section id="section-2" class="page-section bg-white text-gray-900">
-            <div class="container mx-auto px-6 text-center max-w-4xl reveal">
-                <h3 class="text-3xl md:text-5xl font-black">Welcome to The <span class="text-accent-red">Nexus</span>.</h3>
-                <p class="mt-6 text-lg md:text-xl text-gray-600">
+        <section class="page-section bg-white text-gray-900 parallax-bg" style="background-image: url('https://placehold.co/1920x1080/FFFFFF/CCCCCC?text=.');">
+            <div class="container mx-auto px-6 text-center max-w-4xl reveal bg-white/80 backdrop-blur-sm p-12 rounded-lg">
+                <h3 class="text-3xl md:text-5xl font-black">Welcome to the <span class="text-accent-red">Community</span>.</h3>
+                <p class="mt-6 text-lg md:text-xl text-gray-700">
                     This is not another training course. It's an interactive ecosystem designed for the practice of leadership. Here, your challenges become opportunities, your peers become your personal board of directors, and theories become your tools.
                 </p>
             </div>
         </section>
     
         <!-- 4. Core Features Section -->
-        <section id="section-3" class="page-section bg-gray-900">
+        <section class="page-section bg-gray-900">
             <div class="container mx-auto px-6">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-12" style="perspective: 1000px;">
                     <div class="text-center reveal tilt-card bg-gray-800/50 p-8 rounded-2xl border border-gray-700/50">
@@ -200,7 +193,7 @@
         </section>
 
         <!-- 5. The "Wow Factor" Section -->
-        <section id="section-4" class="page-section bg-black relative overflow-hidden">
+        <section class="page-section bg-black relative parallax-bg" style="background-image: url('https://placehold.co/1920x1080/000000/111111?text=');">
             <div class="absolute inset-0 grid-background opacity-50"></div>
             <div class="container mx-auto px-6 text-center relative z-10 reveal">
                 <h3 class="text-4xl md:text-6xl font-black uppercase tracking-wider">The Future is Here: <br class="md:hidden"/><span class="text-accent-red">The Simulation Arena</span></h3>
@@ -218,14 +211,14 @@
             <div class="container mx-auto px-6 text-center max-w-3xl reveal">
                 <h3 class="text-3xl md:text-5xl font-black">It's Time to Practice.</h3>
                 <p class="mt-6 text-lg md:text-xl text-gray-400">
-                    The Nexus is now open to all VOIS leads. This is your space to grow, connect, and sharpen the skills that will define the future of our company.
+                    The Leadership Community is now open to all VOIS leads. This is your space to grow, connect, and sharpen the skills that will define the future of our company.
                 </p>
                 <button onclick="showModal()" class="mt-8 inline-block accent-red text-white font-bold py-4 px-12 rounded-lg text-xl transition-transform duration-300 hover:scale-110 shadow-lg shadow-red-500/30">
-                    Enter The Nexus Now
+                    Join the Community Now
                 </button>
             </div>
         </section>
-    </div>
+    </main>
 
     <!-- Footer -->
     <footer class="fixed bottom-0 left-0 w-full bg-black py-2 z-20">
@@ -238,7 +231,7 @@
     <div id="cta-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50 hidden transition-opacity duration-300">
         <div class="bg-white text-gray-900 rounded-lg shadow-xl max-w-md w-full text-center p-8 transform transition-transform duration-300 scale-95">
             <h4 class="text-2xl font-bold">Access Granted!</h4>
-            <p class="mt-4 text-gray-600">Welcome to The Nexus. You are now part of an exclusive community dedicated to shaping the future of leadership at VOIS. Explore, engage, and start practicing.</p>
+            <p class="mt-4 text-gray-600">Welcome to the Community. You are now part of an exclusive group dedicated to shaping the future of leadership at VOIS. Explore, engage, and start practicing.</p>
             <button onclick="hideModal()" class="mt-6 w-full accent-red text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300">
                 Let's Go
             </button>
@@ -246,71 +239,44 @@
     </div>
 
     <script>
-        // --- 3D UNFOLDING SCROLL EFFECT ---
-        const sections = document.querySelectorAll('.page-section');
-        const scene = document.querySelector('.scene');
-
-        function updateSectionTransforms() {
-            const scrollY = window.scrollY;
-            const viewportHeight = window.innerHeight;
-
-            sections.forEach((section, index) => {
-                const sectionTop = index * viewportHeight;
-                const scrollProgress = Math.max(0, Math.min(1, (scrollY - sectionTop + viewportHeight) / viewportHeight));
-                
-                let transform = '';
-                if (scrollY >= sectionTop) {
-                    transform = `translateZ(-${scrollY - sectionTop}px)`;
-                } else {
-                    const angle = 90 - (scrollProgress * 90);
-                    transform = `translateY(${viewportHeight * (1 - scrollProgress)}px) rotateX(-${angle}deg)`;
-                }
-                
-                section.style.transform = transform;
-
-                // Handle reveal animations
-                const content = section.querySelector('.reveal');
-                if (content) {
-                    const sectionCenter = sectionTop + viewportHeight / 2;
-                    const distanceToCenter = Math.abs(scrollY + viewportHeight / 2 - sectionCenter);
-                    const visibility = Math.max(0, 1 - distanceToCenter / (viewportHeight * 0.7));
-                    
-                    const revealElements = section.querySelectorAll('.reveal');
-                    revealElements.forEach(el => {
-                        el.style.opacity = visibility;
-                        if (visibility > 0.5) {
-                            el.classList.add('visible');
-                        } else {
-                            el.classList.remove('visible');
-                        }
-                    });
-                }
-            });
-        }
-
-        window.addEventListener('scroll', updateSectionTransforms);
-        document.addEventListener('DOMContentLoaded', updateSectionTransforms);
-
-
         // --- SMOOTH SCROLL FOR ANCHOR LINKS ---
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    let targetIndex = 0;
-                    sections.forEach((section, index) => {
-                        if (section.contains(targetElement)) {
-                            targetIndex = index;
-                        }
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // --- SCROLL REVEAL ANIMATION ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.querySelectorAll('.reveal').forEach(el => {
+                        el.classList.add('visible');
                     });
-                    window.scrollTo({
-                        top: targetIndex * window.innerHeight,
-                        behavior: 'smooth'
+                } else {
+                     entry.target.querySelectorAll('.reveal').forEach(el => {
+                        el.classList.remove('visible');
                     });
                 }
             });
+        }, {
+            threshold: 0.2
+        });
+
+        document.querySelectorAll('.page-section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // --- PARALLAX EFFECT FOR CANVAS ---
+        const canvas = document.getElementById('constellation-canvas');
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            if (canvas) {
+                canvas.style.transform = `translateY(${scrollY * 0.3}px)`;
+            }
         });
 
 
@@ -352,7 +318,6 @@
         });
 
         // --- CONSTELLATION CANVAS BACKGROUND ---
-        const canvas = document.getElementById('constellation-canvas');
         if (canvas) {
             const ctx = canvas.getContext('2d');
             let particles = [];
@@ -433,4 +398,3 @@
 
 </body>
 </html>
-
